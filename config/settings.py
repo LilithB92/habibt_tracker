@@ -138,6 +138,7 @@ AUTH_USER_MODEL = 'users.User'
 
 
 INSTALLED_APPS += [
+    "debug_toolbar",
     "rest_framework",
 
     "habits",
@@ -152,3 +153,13 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
     ]
 }
+
+
+MIDDLEWARE = [
+     "debug_toolbar.middleware.DebugToolbarMiddleware",
+] + MIDDLEWARE
+
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
