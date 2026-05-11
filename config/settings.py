@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -118,15 +119,15 @@ STATICFILES_DIRS = [
 ]
 
 
-#Media files (pictures, photos, videos)
+# Media files (pictures, photos, videos)
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
-#email settings
+# email settings
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.yandex.ru"
-EMAIL_PORT =  465
+EMAIL_PORT = 465
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
@@ -134,13 +135,12 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = "users.User"
 
 
 INSTALLED_APPS += [
     "debug_toolbar",
     "rest_framework",
-
     "habits",
     "users",
 ]
@@ -149,14 +149,12 @@ INSTALLED_APPS += [
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
-    ]
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"]
 }
 
 
 MIDDLEWARE = [
-     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ] + MIDDLEWARE
 
 
