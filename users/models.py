@@ -4,7 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     """
-    Stores a single user entry, related to :model:`users.Payment`
+    Сохраняет одну запись о курсе, связанную с:model:`habits.Habit`
     """
 
     username = None
