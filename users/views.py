@@ -3,6 +3,7 @@ from rest_framework.generics import DestroyAPIView
 from rest_framework.generics import ListAPIView
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.generics import UpdateAPIView
+from rest_framework.permissions import AllowAny
 
 from users.models import User
 from users.serializers import UserGeneralInformationSerializer
@@ -16,7 +17,7 @@ class UserCreateAPIView(CreateAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    # permission_classes = (AllowAny,)
+    permission_classes = (AllowAny,)
 
     def perform_create(self, serializer):
         user = serializer.save(is_active=True)
