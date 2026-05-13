@@ -142,6 +142,7 @@ INSTALLED_APPS += [
     "debug_toolbar",
     "rest_framework",
     "rest_framework_simplejwt",
+    "corsheaders",
     "habits",
     "users",
 ]
@@ -159,9 +160,12 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ] + MIDDLEWARE
 
 
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+CORS_ALLOWED_ORIGINS = ["http://localhost:8000"]
