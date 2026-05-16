@@ -12,7 +12,7 @@ class HabitViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Пользователь видит только свои привычки"""
-        return Habit.objects.filter(user=self.request.user).order_by('pk')
+        return Habit.objects.filter(user=self.request.user.id).order_by('pk')
 
     def perform_create(self, serializer):
         """При создании привычки поле для владельца сущности заполняется аутентифицированным пользователем."""
