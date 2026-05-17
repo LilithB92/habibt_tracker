@@ -144,6 +144,7 @@ INSTALLED_APPS += [
     "rest_framework_simplejwt",
     "corsheaders",
     "drf_yasg",
+    "django_celery_beat",
     "habits",
     "users",
 ]
@@ -185,3 +186,7 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BROKER_URL = "redis://localhost:6379/0"  # Например, Redis, который по умолчанию работает на порту 6379
 # URL-адрес брокера результатов, также Redis
 CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+
+
+# Force Celery to use the database periodic scheduler
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
