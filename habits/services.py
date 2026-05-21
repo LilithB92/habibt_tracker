@@ -1,9 +1,12 @@
 import json
 from datetime import timedelta
-from django.utils import timezone
 
 import requests
-from django_celery_beat.models import PeriodicTask, CrontabSchedule
+from celery.exceptions import CeleryError
+from celery.schedules import ParseException
+from django.utils import timezone
+from django_celery_beat.models import CrontabSchedule
+from django_celery_beat.models import PeriodicTask
 
 from config import settings
 
@@ -18,13 +21,16 @@ class HabitPeriodicTask:
         :param habit: объект привычки
         :return: объект графики
         """
-        task_time = habit.time.strftime("%H:%M").split(":")
-        hour, minute = task_time[0], task_time[1]
+        try:
+            task_time = habit.time.strftime("%H:%M").split(":")
+            hour, minute = task_time[0], task_time[1]
 
-        crontab_schedule, created = CrontabSchedule.objects.get_or_create(
-            minute=minute, hour=hour, day_of_month=f"*/{habit.periodicity}"
-        )
-        return crontab_schedule
+            crontab_schedule, created = CrontabSchedule.objects.get_or_create(
+                minute=minute, hour=hour, day_of_month=f"*/{habit.periodicity}"
+            )
+            return crontab_schedule
+        except ParseException as e:
+            return f"Обнаружено недопустимое выражение crontab: {e}"
 
     @staticmethod
     def set_crontab(habit: object, crontab_schedule: object) -> None:
@@ -35,13 +41,16 @@ class HabitPeriodicTask:
         :param crontab_schedule: объект графика
         :return: None
         """
-        PeriodicTask.objects.create(
-            crontab=crontab_schedule,
-            name=f"{habit.action}",
-            task="habits.tasks.send_habit_email",
-            args=json.dumps([habit.pk]),
-            expires=timezone.now() + timedelta(days=30),
-        )
+        try:
+            PeriodicTask.objects.create(
+                crontab=crontab_schedule,
+                name=f"{habit.action}",
+                task="habits.tasks.send_habit_email",
+                args=json.dumps([habit.pk]),
+                expires=timezone.now() + timedelta(days=30),
+            )
+        except Exception as e:
+            raise CeleryError(f"Task failed with: {e}")
 
 
 def send_tg_message(chat_id, message):
