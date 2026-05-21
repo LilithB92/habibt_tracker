@@ -25,8 +25,10 @@ class HabitSerializer(serializers.ModelSerializer):
             "reward",
             "duration",
             "is_public",
+            "created_at",
+            "updated_at",
         )
-        read_only_fields = ("user",)
+        read_only_fields = ("user", "created_at", "updated_at")
 
     def validate(self, data):
         # 1. Проверка: Связанная привычка + Вознаграждение

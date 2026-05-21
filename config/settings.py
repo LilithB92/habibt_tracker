@@ -190,3 +190,8 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
 
 # Force Celery to use the database periodic scheduler
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+# Telegram token for sending messages
+TG_BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
+TG_URL = os.getenv("TG_URL")
+TG_CHAT_ID = os.getenv("TG_CHAT_ID")

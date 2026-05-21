@@ -12,8 +12,8 @@ router.register(r"", HabitViewSet, basename="habit")
 
 
 urlpatterns = [
-    path('public_habit/', PublicHabitViewSet.as_view({'get': 'list'}), name="public_habit_list"),
-    path('public_habit/<int:pk>/', PublicHabitViewSet.as_view({'get': 'retrieve'}),  name="public_habit_retrieve"),
+    path("public_habit/", PublicHabitViewSet.as_view({"get": "list"}), name="public_habit_list"),
+    path("public_habit/<int:pk>/", PublicHabitViewSet.as_view({"get": "retrieve"}), name="public_habit_retrieve"),
 ]
 
 urlpatterns += router.urls
