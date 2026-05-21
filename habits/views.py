@@ -31,6 +31,14 @@ class HabitViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         """При обновлении привычки поле для владельца сущности и создает новый объект периодического задании"""
         habit = serializer.save()
+        task = PeriodicTask.objects.filter(name=habit.action).first()
+        if task:
+            task.delete()
+        try:
+            schedule = HabitPeriodicTask.set_schedule(habit=habit)
+            HabitPeriodicTask.set_crontab(habit=habit, crontab_schedule=schedule)
+        except Exception as e:
+            raise CeleryError(f"Task failed with: {e}")
 
     def perform_destroy(self, instance):
         """Когда удаляем привычку автоматический удаляется график привычки"""
