@@ -39,7 +39,7 @@ class Habit(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Я буду {self.action} в {self.time} "
+        return f"Я буду {self.action} в {self.time} в {self.place} "
 
     class Meta:
         verbose_name = "Привычка"

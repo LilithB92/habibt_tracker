@@ -11,7 +11,7 @@ def send_habit_email(self, habit_id):
     Асинхронная задача для отправки писем подписчикам.
     """
     habit = Habit.objects.filter(pk=habit_id).first()
-    subject = f"Напоминаем о привичке: {habit.action}"
+    subject = f"Напоминаем о привычке: {habit.action}"
     message = f"Ваша решение: {habit.__str__()}"
 
     send_mail(
