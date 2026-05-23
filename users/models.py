@@ -8,7 +8,8 @@ class User(AbstractUser):
     """
 
     username = None
-    email = models.EmailField(unique=True, verbose_name="Почта", help_text="Введите Вашу почту")
+    email = models.EmailField(unique=True)
+    verification_token = models.CharField(max_length=36, blank=True, null=True)
     phone_number = models.CharField(
         max_length=30, blank=True, null=True, verbose_name="Телефон", help_text="Введите Ваш номер телефона"
     )

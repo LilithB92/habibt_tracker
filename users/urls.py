@@ -9,11 +9,13 @@ from users.views import UserDestroyAPIView
 from users.views import UserListApiView
 from users.views import UserRetrieveAPIView
 from users.views import UserUpdateAPIView
+from users.views import VerifyEmailView
 
 app_name = UsersConfig.name
 
 urlpatterns = [
     path("register/", UserCreateAPIView.as_view(), name="register"),
+    path("verify-email/<str:token>/", VerifyEmailView.as_view(), name="verify-email"),
     path("login/", TokenObtainPairView.as_view(permission_classes=(AllowAny,)), name="login"),
     path("token/refresh/", TokenRefreshView.as_view(permission_classes=(AllowAny,)), name="token_refresh"),
     path("list/", UserListApiView.as_view(), name="user_list"),
