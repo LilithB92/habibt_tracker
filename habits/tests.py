@@ -16,7 +16,11 @@ class HabitAPITestCase(APITestCase):
         """Подготовка данных перед каждым тестом"""
         self.user = User.objects.create(email="test@mail.ru")
         self.habit = Habit.objects.create(
-            user=self.user, place="park", time="22:50:00", action="run", duration="00:01:20"
+            user=self.user,
+            place="park",
+            time="22:50:00",
+            action="run",
+            duration=timedelta(minutes=1, seconds=20)  # Исправление типа данных
         )
         self.client.force_authenticate(user=self.user)
 
@@ -43,13 +47,12 @@ class HabitAPITestCase(APITestCase):
 
     def test_habit_create(self):
         """Тестирование POST-запроса к API(создание привычки)"""
-
         self.url = reverse("habits:habit-list")
         habit_dict = {
             "place": "park",
             "time": "22:50:00",
             "action": "learn foreign language",
-            "duration": "00:01:20",
+            "duration": timedelta(minutes=1, seconds=20),  # Исправление типа данных
         }
         response = self.client.post(self.url, habit_dict)
 
@@ -143,7 +146,7 @@ class SendHabitEmailTaskTestCase(APITestCase):
             action="Сделать зарядку",
             place="park",
             time="06:50:00",
-            duration="00:01:20",
+            duration=timedelta(minutes=1, seconds=20),  # Исправление типа данных
         )
 
     def test_send_habit_email_success(self):
